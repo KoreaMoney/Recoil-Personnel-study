@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "./api";
 import ApexCharts from "react-apexcharts";
-import { useTheme } from "styled-components";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
 interface chartProps {
   coinId: string;
@@ -16,8 +17,9 @@ interface IHistoryData {
   volume: string;
   market_cap: number;
 }
-
 const Chart = ({ coinId }: chartProps) => {
+  const isDark = useRecoilValue(isDarkAtom);
+
   const { isLoading, data } = useQuery<IHistoryData[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -29,7 +31,6 @@ const Chart = ({ coinId }: chartProps) => {
   if ("error" in validData) {
     validData = [];
   }
-  const theme = useTheme();
   return (
     <div>
       {isLoading ? (
@@ -46,7 +47,7 @@ const Chart = ({ coinId }: chartProps) => {
             ]}
             options={{
               theme: {
-                mode: "dark",
+                mode: isDark ? "dark" : "light",
               },
               chart: {
                 height: 300,
@@ -107,6 +108,9 @@ const Chart = ({ coinId }: chartProps) => {
             width="100%"
             height="160px"
             options={{
+              theme: {
+                mode: isDark ? "dark" : "light",
+              },
               noData: {
                 text: "",
               },
@@ -143,7 +147,7 @@ const Chart = ({ coinId }: chartProps) => {
                   show: true,
                   style: {
                     fontSize: "12px",
-                    colors: "white",
+                    colors: isDark ? "white" : "black",
                   },
                 },
 

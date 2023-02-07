@@ -10,5 +10,6 @@ declare module "styled-components" {
     downwardColor: string;
     cardColor: string;
     activeCardColor: string;
+    cardBgColor: string;
   }
 }

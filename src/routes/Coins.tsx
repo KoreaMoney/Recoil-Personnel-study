@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchCoins } from "./api";
+import { isDarkAtom } from "./atom";
 
 interface CoinInterface {
   id: string;
@@ -14,7 +16,13 @@ interface CoinInterface {
   type: string;
 }
 
+interface ICoinsProps {}
+
 const Coins = () => {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => {
+    setDarkAtom((prev) => !prev);
+  };
   const { isLoading, data } = useQuery<CoinInterface[]>(
     ["allCoins"],
     fetchCoins
@@ -27,6 +35,7 @@ const Coins = () => {
       </Helmet>
       <Header>
         <Title>암호화폐</Title>
+        <button onClick={toggleDarkAtom}>Toggle_Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
@@ -70,10 +79,11 @@ const CoinsList = styled.ul`
   gap: 10px;
 `;
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   border-radius: 15px;
+  border: 1px solid white;
   width: 200px;
   font-weight: 600;
   a {

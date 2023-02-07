@@ -14,6 +14,8 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { HiHome } from "react-icons/hi";
 
+interface ICoinProps {}
+
 interface MaterialIconProps {
   name: string;
 }
@@ -87,7 +89,7 @@ export interface PriceData {
   };
 }
 
-const Coin = () => {
+const Coin = ({}: ICoinProps) => {
   /**console.log로 useParams에서 해당하는 것의 obj를 찾음
    * useParams는 URL에서 관심있는 정보를 잡아 낼수 있게 해준다
    */
@@ -141,7 +143,7 @@ const Coin = () => {
             </OverviewItem>
             <OverviewItem>
               <span>Price</span>
-              <span>${tickersData?.quotes.USD.price.toFixed(5)}</span>
+              <span>${tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -181,7 +183,7 @@ const Coin = () => {
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: #273c75;
+  background-color: #7791d8;
   padding: 10px 20px;
   border-radius: 10px;
 `;
